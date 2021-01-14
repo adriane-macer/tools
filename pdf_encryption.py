@@ -84,7 +84,9 @@ class Window(Frame):
             return
 
 
-        encryptedFilename = self.saveDirectory["text"] + "/" + str(self.filename["text"]).split("/")[-1]
+        encryptedFilename = self.saveDirectory["text"] + "/" \
+                            + str(self.filename["text"]).split("/")[-1].split(".pdf")[0]\
+                            +"_encrypted.pdf"
         succesDialog(encryptedFilename)
 
         print("no error")
