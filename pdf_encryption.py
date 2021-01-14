@@ -6,6 +6,7 @@ from tkinter import messagebox
 from tkinter import commondialog
 import pikepdf
 from pikepdf import Pdf
+from pikepdf import _cpphelpers
 
 class Window(Frame):
 
@@ -48,8 +49,8 @@ class Window(Frame):
         startButton = Button(self, text="Start encyption", command=self.clickStartButton, background="blue", fg="white")
         startButton.place(x=10,y=270)
 
-        exitButton = Button(self, text="Cancel", command=self.clickExitButton)
-        exitButton.place(x=10, y=300)
+        # exitButton = Button(self, text="Cancel", command=self.clickExitButton)
+        # exitButton.place(x=10, y=300)
 
         developer_name = Label(master, text="Personal project by: Adrian Evenagelista",  fg="blue", font=("Helvetica", 8))
         developer_name.place(x=10,y=380)
