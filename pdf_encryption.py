@@ -8,7 +8,6 @@ import pikepdf
 from pikepdf import Pdf
 from pikepdf import _cpphelpers
 
-
 class Window(Frame):
 
     def __init__(self, master=None):

@@ -3,7 +3,6 @@ import json
 import os
 import datetime
 
-
 def start_converting(filename, destination):
     xls = pd.ExcelFile(filename)
 
