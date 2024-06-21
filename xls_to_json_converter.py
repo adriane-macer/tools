@@ -7,7 +7,7 @@ import datetime
 def start_converting(filename, destination):
     xls = pd.ExcelFile(filename)
 
-    xls.sheet_names
+    xls.sheet_names()
 
     print(xls.sheet_names)
     for sheet_name in xls.sheet_names:

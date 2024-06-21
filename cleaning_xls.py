@@ -35,7 +35,7 @@ def start_cleaning(filename, destination):
 
             try:
                 if not text.isascii():
-                    print(text)
+                    print(f'excluded {text} : Not an ascii')
                     continue
             except UnicodeError:
                 continue
