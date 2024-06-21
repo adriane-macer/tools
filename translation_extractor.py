@@ -21,6 +21,18 @@ def start_converting(filename, destination):
             print(excel_df.head(5))
             print(excel_df.columns)
             print(excel_df['tl'])
+            tl = excel_df['tl']
+            tl_value = pd.DataFrame(data=tl.values, columns=['tl'])
+            tl_index = pd.DataFrame(data=tl.index, columns=['tl'])
+            tl_df = pd.merge(tl_index, tl_value, left_index=True, right_index=True)
+            print(type(tl_df))
+
+            data = []
+            for k, v in tl_df.iterrows():
+                print("k {}".format(k))
+                print("v {}".format(v))
+                print("dict {}".format(v.to_dict()))
+                data.append(v.to_dict())
 
             # TODO remove
             return True
