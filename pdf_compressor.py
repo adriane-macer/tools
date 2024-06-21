@@ -1,6 +1,6 @@
 from PyPDF2 import PdfReader, PdfWriter
 
-reader = PdfReader("MaryAnnEvangelista-CovidIllnessReport.pdf")
+
 writer = PdfWriter()
 
 for page in reader.pages:
