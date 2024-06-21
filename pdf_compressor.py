@@ -1,6 +1,5 @@
 from PyPDF2 import PdfReader, PdfWriter
 
-
 writer = PdfWriter()
 
 for page in reader.pages:
