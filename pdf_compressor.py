@@ -2,6 +2,7 @@ from PyPDF2 import PdfReader, PdfWriter
 
 writer = PdfWriter()
 
+
 for page in reader.pages:
     page.compress_content_streams()
     page.

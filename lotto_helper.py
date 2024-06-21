@@ -11,6 +11,6 @@ with open('past_winning_numbers.csv', 'r') as file:
 
 occurrences = Counter(past_winners)
 
-most_common = occurrences.most_common(30)
+most_common = occurrences.most_common(50)
 
 print("Predicted winning numbers", most_common)
