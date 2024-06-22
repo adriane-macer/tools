@@ -11,75 +11,64 @@ def start_converting(filename, destination):
     sheet_names = xls.sheet_names
 
     print(sheet_names)
+    languages_dict = dict()
     for sheet_name in sheet_names:
         excel_df = None
         try:
             excel_df = pd.read_excel(filename,
                                      header=0,
                                      index_col=0,
-                                     # skiprows=0,
                                      sheet_name=sheet_name)
             print(excel_df.head(5))
             print(excel_df.columns)
 
-            columns = excel_df.columns
+            languages = excel_df.columns
 
-            for column in columns:
-                print(column)
+            for language in languages:
+                print(language)
+                current_dict = dict()
+                if languages_dict.get(language) is None:
+                    print("{} is None".format(language))
+                    languages_dict.update({language: dict()})
+                else:
+                    current_dict = languages_dict[language]
 
-                # print(excel_df[column])
-                tl = excel_df[column]
+                language_series = excel_df[language]
+                # print(language_series)
 
-                tl_df = tl.to_frame()
+                language_df = language_series.to_frame()
 
-                data = []
                 type_dict = dict()
                 type_items_dict = dict()
 
-                item = []
-                for k, v in tl_df.iterrows():
-                    print("k {}".format(k))
-                    print("v {}".format(v[column]))
+                for k, v in language_df.iterrows():
+                    # print("k {}".format(k))
+                    # print("v {}".format(v[language]))
+                    if v[language] is None:
+                        continue
 
-                    # data.append(dict({k: v[column]}))
+                    type_items_dict.update({k: v[language]})
 
-                    type_items_dict.update({k: v[column]})
-
-                    # data.append(v.to_dict())
-                    # item.append(k)
-
-                # data.append(type_dict)
                 type_dict.update({sheet_name: type_items_dict})
 
-                try:
-                    with open(destination + "\\" + sheet_name + ".json", 'a+', ) as f:
-                        json.dump(type_dict, f, indent=4, )
-                except Exception as e:
-                    print(e)
-                    return False
-                finally:
-                    xls.close()
-
-                # TODO remove
-                return True
+                current_dict.update(type_dict)
+                print(current_dict)
+                languages_dict.update({language: current_dict})
 
         except Exception as e:
             print(e)
             return False
 
-        data = []
-
-        for k, v in excel_df.iterrows():
-            data.append(v.to_dict())
-
+    for item in languages_dict.items():
         try:
-            with open(destination + "\\" + sheet_name + ".json", 'a+', ) as f:
-                json.dump(data, f, indent=4, )
+            with open(destination + "\\" + item[0] + ".json", 'a+', ) as f:
+                json.dump(item[1], f, indent=4, )
         except Exception as e:
             print(e)
             return False
         finally:
             xls.close()
+        print("item : {}".format(item))
 
     return True
 
