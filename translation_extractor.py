@@ -34,6 +34,7 @@ def start_converting(filename, destination):
 
                 data = []
                 type_dict = dict()
+                type_items_dict = dict()
 
                 item = []
                 for k, v in tl_df.iterrows():
@@ -42,16 +43,17 @@ def start_converting(filename, destination):
 
                     # data.append(dict({k: v[column]}))
 
-                    type_dict.update({k: v[column]})
+                    type_items_dict.update({k: v[column]})
 
                     # data.append(v.to_dict())
                     # item.append(k)
 
-                data.append(type_dict)
+                # data.append(type_dict)
+                type_dict.update({sheet_name: type_items_dict})
 
                 try:
                     with open(destination + "\\" + sheet_name + ".json", 'a+', ) as f:
-                        json.dump(data, f, indent=4, )
+                        json.dump(type_dict, f, indent=4, )
                 except Exception as e:
                     print(e)
                     return False
