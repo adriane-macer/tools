@@ -3,6 +3,7 @@ import json
 import os
 import datetime
 
+
 def start_converting(filename, destination):
     xls = pd.ExcelFile(filename)
 
@@ -20,22 +21,45 @@ def start_converting(filename, destination):
                                      sheet_name=sheet_name)
             print(excel_df.head(5))
             print(excel_df.columns)
-            print(excel_df['tl'])
-            tl = excel_df['tl']
-            tl_value = pd.DataFrame(data=tl.values, columns=['tl'])
-            tl_index = pd.DataFrame(data=tl.index, columns=['tl'])
-            tl_df = pd.merge(tl_index, tl_value, left_index=True, right_index=True)
-            print(type(tl_df))
 
-            data = []
-            for k, v in tl_df.iterrows():
-                print("k {}".format(k))
-                print("v {}".format(v))
-                print("dict {}".format(v.to_dict()))
-                data.append(v.to_dict())
+            columns = excel_df.columns
 
-            # TODO remove
-            return True
+            for column in columns:
+                print(column)
+
+                # print(excel_df[column])
+                tl = excel_df[column]
+
+                tl_df = tl.to_frame()
+
+                data = []
+                type_dict = dict()
+
+                item = []
+                for k, v in tl_df.iterrows():
+                    print("k {}".format(k))
+                    print("v {}".format(v[column]))
+
+                    # data.append(dict({k: v[column]}))
+
+                    type_dict.update({k: v[column]})
+
+                    # data.append(v.to_dict())
+                    # item.append(k)
+
+                data.append(type_dict)
+
+                try:
+                    with open(destination + "\\" + sheet_name + ".json", 'a+', ) as f:
+                        json.dump(data, f, indent=4, )
+                except Exception as e:
+                    print(e)
+                    return False
+                finally:
+                    xls.close()
+
+                # TODO remove
+                return True
 
         except Exception as e:
             print(e)
