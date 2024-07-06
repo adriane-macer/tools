@@ -67,20 +67,17 @@ def start_headhunt_dessert():
 
         # ######################
         # Dessert Button
-        pyautogui.click(1823, 626)
         if click(1823, 626, controller=controller):
             break
         ################################
 
         time.sleep(2)
         # Battle Button
-        pyautogui.click(1717, 874)
         if click(1717, 874, controller=controller):
             break
 
         time.sleep(2)
         # Next button
-        pyautogui.click(1776, 660)
         if click(1776, 660, controller=controller):
             break
 
