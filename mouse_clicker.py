@@ -10,26 +10,20 @@ def start_main_battle():
     #  main battle
     while 1:
         time.sleep(2)
-        is_out_of_the_screen = check_if_out_of_screen(controller)
-        if is_out_of_the_screen:
-            break
 
         # Battle Button
-        pyautogui.click(1717, 874)
+        if click(1717, 874, controller=controller):
+            break
 
         time.sleep(2)
-        is_out_of_the_screen = check_if_out_of_screen(controller)
-        if is_out_of_the_screen:
-            break
         # Level Button
-        pyautogui.click(1717, 874)
+        if click(1717, 874, controller=controller):
+            break
 
         time.sleep(2)
-        is_out_of_the_screen = check_if_out_of_screen(controller)
-        if is_out_of_the_screen:
-            break
         # Next button
-        pyautogui.click(1766, 719)
+        if click(1766, 719, controller=controller):
+            break
 
 
 def start_headhunt_winter():
@@ -38,27 +32,30 @@ def start_headhunt_winter():
     # Head Hunt
     while 1:
         time.sleep(2)
-        is_out_of_the_screen = check_if_out_of_screen(controller)
-        if is_out_of_the_screen:
-            break
         # ######################
         # Hard Button
-        pyautogui.click(1838, 820)
+        if click(1838, 820, controller=controller):
+            break
         # ################################
 
         time.sleep(2)
-        is_out_of_the_screen = check_if_out_of_screen(controller)
-        if is_out_of_the_screen:
-            break
+
         # Battle Button
-        pyautogui.click(1717, 874)
+        if click(1717, 874, controller=controller):
+            break
 
         time.sleep(2)
-        is_out_of_the_screen = check_if_out_of_screen(controller)
-        if is_out_of_the_screen:
-            break
         # Next button
-        pyautogui.click(1776, 660)
+        if click(1776, 660, controller=controller):
+            break
+
+
+def click(x: int, y: int, controller: mouse.Controller):
+    if check_if_out_of_screen(controller=controller):
+        return True
+
+    pyautogui.click(x, y)
+    return False
 
 
 def start_headhunt_dessert():
@@ -67,28 +64,25 @@ def start_headhunt_dessert():
     # Head Hunt
     while 1:
         time.sleep(2)
-        is_out_of_the_screen = check_if_out_of_screen(controller)
-        if is_out_of_the_screen:
-            break
 
         # ######################
         # Dessert Button
         pyautogui.click(1823, 626)
+        if click(1823, 626, controller=controller):
+            break
         ################################
 
         time.sleep(2)
-        is_out_of_the_screen = check_if_out_of_screen(controller)
-        if is_out_of_the_screen:
-            break
         # Battle Button
         pyautogui.click(1717, 874)
+        if click(1717, 874, controller=controller):
+            break
 
         time.sleep(2)
-        is_out_of_the_screen = check_if_out_of_screen(controller)
-        if is_out_of_the_screen:
-            break
         # Next button
         pyautogui.click(1776, 660)
+        if click(1776, 660, controller=controller):
+            break
 
 
 def check_if_out_of_screen(controller: mouse.Controller):
