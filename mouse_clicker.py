@@ -2,6 +2,7 @@ import pynput.mouse
 from pynput import mouse
 import time
 import pyautogui
+from datetime import datetime
 
 
 def start_main_battle():
@@ -25,6 +26,10 @@ def start_main_battle():
         if click(1766, 719, controller=controller):
             break
 
+        cycle_date_time = datetime.now()
+        cycle_time = cycle_date_time.strftime("%H:%M:%S")
+        print(cycle_time)
+
 
 def start_headhunt_winter():
     controller = mouse.Controller()
@@ -34,7 +39,7 @@ def start_headhunt_winter():
         time.sleep(2)
         # ######################
         # Hard Button
-        if click(1838, 820, controller=controller):
+        if click(1830, 820, controller=controller):
             break
         # ################################
 
@@ -49,11 +54,15 @@ def start_headhunt_winter():
         if click(1776, 660, controller=controller):
             break
 
+        cycle_date_time = datetime.now()
+        cycle_time = cycle_date_time.strftime("%H:%M:%S")
+        print(cycle_time)
+
 
 def click(x: int, y: int, controller: mouse.Controller):
     if check_if_out_of_screen(controller=controller):
         return True
-
+    # return True
     pyautogui.click(x, y)
     return False
 
@@ -81,11 +90,16 @@ def start_headhunt_dessert():
         if click(1776, 660, controller=controller):
             break
 
+        cycle_date_time = datetime.now()
+        cycle_time = cycle_date_time.strftime("%H:%M:%S")
+        print(cycle_time)
+
 
 def check_if_out_of_screen(controller: mouse.Controller):
     location = controller.position
-    print(f"location[0] {location[0]}")
+    # print(f"location[0] {location[0]}")
     return location[0] < 1500
+
 
 
 if __name__ == "__main__":
@@ -94,6 +108,11 @@ if __name__ == "__main__":
     print("2 - Headhunt Winter")
     print("3 - Headhunt Dessert")
     game_type = input("")
+
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    print("started time:", current_time)
+
     if game_type == "1":
         start_main_battle()
     elif game_type == "2":
@@ -102,3 +121,8 @@ if __name__ == "__main__":
         start_headhunt_dessert()
     else:
         print("Input not valid")
+
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    print("ended time:", current_time)
+
