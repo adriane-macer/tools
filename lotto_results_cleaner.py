@@ -1,5 +1,3 @@
-
-
 from datetime import datetime
 import pandas as pd
 import json
@@ -23,51 +21,27 @@ def start_cleaning(filename, destination):
                 date_in_list = date_str.split("/")
                 if len(date_in_list[2]) != 2:
                     new_v = v
-                    new_v["DRAW DATE"] = datetime.strptime(f'{date_in_list[0]}/{date_in_list[1]}/{date_in_list[2][2:4]}', '%m/%d/%y')
+                    new_v["DRAW DATE"] = datetime.strptime(
+                        f'{date_in_list[0]}/{date_in_list[1]}/{date_in_list[2][2:4]}', '%m/%d/%y').date()
                     data.append(new_v)
                 else:
                     new_v = v
-                    new_v["DRAW DATE"] = datetime.strptime(date_str, '%m/%d/%y')
+                    new_v["DRAW DATE"] = datetime.strptime(date_str, '%m/%d/%y').date()
                     data.append(new_v)
 
             else:
-                data.append(v)
+                new_v = v
+                new_v["DRAW DATE"] = (v["DRAW DATE"]).date()
+                data.append(new_v)
 
         print(len(data))
         df = pd.DataFrame(data)
-        df.to_excel("output.xlsx")
+        df.to_excel("cleaned_results_11Nov_2024.xlsx")
         return True
 
     except Exception as e:
         print(e)
         return False
-
-
-def dict_to_json(data, destination):
-    try:
-        with open(destination + "\\" + "cleaned.json", 'w', ) as f:
-            json.dump(data, f, indent=4, )
-    except Exception as e:
-        print(e)
-        return False
-
-    return True
-
-
-def df_to_json(df, destination):
-    data = []
-
-    for k, v in df.iterrows():
-        data.append(v.to_dict())
-
-    try:
-        with open(destination + "\\" + "cleaned.json", 'w', ) as f:
-            json.dump(data, f, indent=4, )
-    except Exception as e:
-        print(e)
-        return False
-
-    return True
 
 
 def run():
