@@ -36,7 +36,7 @@ def start_cleaning(filename, destination):
 
         print(len(data))
         df = pd.DataFrame(data)
-        df.to_excel("cleaned_results_11Nov_2024.xlsx")
+        df.to_excel("cleaned_results_10Nov_2024.xlsx")
         return True
 
     except Exception as e:
