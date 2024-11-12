@@ -88,22 +88,18 @@ def compare_combi_with_previous(row_starting_position: int, winning_date: dateti
         combinations = str(v["COMBINATIONS"])
         combinations_split = combinations.split("-")
 
-        row_dictionary: dict = {"Date": date_draw, "LOTTO GAME": game}
-
         matched_count = 0
+
+        row_dictionary = {"Date": date_draw, "LOTTO GAME": game, "1": "", "2": "", "3": "", "4": "", "5": "", "6": "", }
 
         # iterates the wining combination and check the matched position of the current game combinations
         for combi in winning_combinations_split:
-            print(f"combi            : {combi}")
+            print(f'combi : {combi}')
             for x in range(len(combinations_split)):
                 # print(f'combinations_split[x] : {combinations_split[x]}')
                 if combi == combinations_split[x]:
-                    row_dictionary[x+1] = str(x+1)
-                    print(f'x     : {x}')
-                    print(f'x row : {row_dictionary}')
+                    row_dictionary[str(x + 1)] = str(x + 1)
                     matched_count = matched_count + 1
-                else:
-                    row_dictionary[x+1] = ""
 
         row_dictionary["Matched Count"] = matched_count
 
