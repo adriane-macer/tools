@@ -163,11 +163,11 @@ def compare_combi_with_previous(dataframe: pd.DataFrame, row_starting_position: 
                               "6": "", }
 
             # iterates the wining combination and check the matched position of the current game combinations
-            for combi in winning_combinations_split:
+            for n in range(len(winning_combinations_split)):
                 for x in range(len(combinations_split)):
                     # print(f'combinations_split[x] : {combinations_split[x]}')
-                    if combi == combinations_split[x]:
-                        row_dictionary[str(x + 1)] = str(x + 1)
+                    if winning_combinations_split[n] == combinations_split[x]:
+                        row_dictionary[str(x + 1)] = str(n+1)
                         matched_count = matched_count + 1
 
             row_dictionary["Matched Count"] = matched_count
