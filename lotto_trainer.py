@@ -2,38 +2,59 @@ import datetime
 import pandas as pd
 import openpyxl
 
+game_to_train = "Superlotto 6/49"
+game_max_num = "49"
+day_to_train = "sunday"
+day_map = {"monday": 0,
+           "tuesday": 1,
+           "wednesday": 2,
+           "thursday": 3,
+           "friday": 4,
+           "saturday": 5,
+           "sunday": 6,
+           }
+
+today = datetime.datetime.today().strftime("%m-%d-%y")
+
+# "Lotto 6/42", "Megalotto 6/45", "Superlotto 6/49", "Grand Lotto 6/55", "Ultra Lotto 6/58"
+
 
 def start_training(filename, destination):
-    date_to = datetime.datetime.strptime('2/11/24', '%d/%m/%y').date()
-    date_from = datetime.datetime.strptime('1/1/14', '%d/%m/%y').date()
+    date_to = datetime.datetime.strptime('14/11/24', '%d/%m/%y').date()
+    date_from = datetime.datetime.strptime('1/1/20', '%d/%m/%y').date()
 
     list_sheet_data = []
     last_row_position = 0
 
-    saturdays = get_saturdays(date_from=date_from, date_to=date_to)
-    saturdays.reverse()
+    days = get_days_to_train(date_from=date_from, date_to=date_to)
+    days.reverse()
 
-    filename = "D:\\Github\\tools\\cleaned_results_10Nov_2024.xlsx"
+    print(f"ljskdlfkjlskdj : {len(days)}")
+
+    filename = f"D:\\Github\\tools\\generated\\cleaned_results.xlsx"
 
     dataframe = pd.read_excel(filename, skiprows=0)
 
-    saturdays_and_pos = list(get_saturdays_with_first_row_number(dataframe=dataframe, days=saturdays))
+    days_and_pos = list(get_days_with_first_row_number(dataframe=dataframe, days=days))
 
-    for saturday in saturdays_and_pos:
+    for day_pos in days_and_pos:
         print('-----------------')
-        print(f'saturday[0] : {saturday[0]}')
-        print(f'saturday[1] : {saturday[1]}')
-        result = compare_combi_with_previous(dataframe=dataframe, row_starting_position=saturday[1],
-                                             winning_date=saturday[0], num_rows=20, winning_combinations=saturday[2])
+        print(f'day_pos[0] : {day_pos[0]}')
+        print(f'day_pos[1] : {day_pos[1]}')
+        result = compare_combi_with_previous(dataframe=dataframe, row_starting_position=day_pos[1],
+                                             winning_date=day_pos[0], num_rows=20, winning_combinations=day_pos[2])
         # print(f'result  : {len(result)}')
-        list_sheet_data.append((saturday[0], result))
+        list_sheet_data.append((day_pos[0], result))
 
     print(f'list_sheet_data :  {len(list_sheet_data)}')
     # print(f'list_sheet_data : {list_sheet_data}')
 
     writer_book: pd.ExcelWriter
-    destination = "D:\\Github\\tools\\trained_output.xlsx"
+    destination = f"D:\\Github\\tools\\generated\\trained_output_{game_max_num}_{today}.xlsx"
     try:
+        # empty_df = pd.DataFrame({})
+        # empty_df.to_excel(destination)
+
         # Generating workbook and writer engine
         # excel_workbook = openpyxl.load_workbook(destination,data_only=False,read_only=False)
         writer_book = pd.ExcelWriter(path=destination)
@@ -74,32 +95,7 @@ def convert_date_draw(date_draw) -> datetime.date:
         return converted
 
 
-def get_next_starting_position(winning_date: datetime.date, df: pd.DataFrame, current_starting: int) -> int:
-    filename = "D:\\Github\\tools\\cleaned_results_10Nov_2024.xlsx"
-    data: pd.DataFrame
-
-    dataframe = pd.read_excel(filename, skiprows=current_starting, nrows=100)
-    counter = 0
-    for k, v in dataframe.iterrows():
-        date_draw = None
-        try:
-            date_draw = str(v['DRAW DATE'])
-        except Exception as e:
-            # print(e)
-            continue
-
-        date_draw_converted = convert_date_draw(str(date_draw))
-
-        game = str(v["LOTTO GAME"])
-        if date_draw_converted == (winning_date - datetime.timedelta(days=7)) and game == "Lotto 6/42":
-            break
-
-        counter = counter + 1
-
-    return counter + current_starting - 1
-
-
-def get_saturdays_with_first_row_number(dataframe: pd.DataFrame, days: list):
+def get_days_with_first_row_number(dataframe: pd.DataFrame, days: list):
     position = 0
     max_length = len(dataframe)
     for day in days:
@@ -115,7 +111,7 @@ def get_saturdays_with_first_row_number(dataframe: pd.DataFrame, days: list):
                 date_draw_converted = convert_date_draw(str(draw_date))
 
                 game = str(dframe["LOTTO GAME"])
-                if date_draw_converted == saturday and game == "Lotto 6/42" and not has_position:
+                if date_draw_converted == saturday and game == game_to_train and not has_position:
                     winning_combinations = str(dframe["COMBINATIONS"])
                     has_position = True
                     yield date_draw_converted, position, winning_combinations
@@ -130,7 +126,7 @@ def get_saturdays_with_first_row_number(dataframe: pd.DataFrame, days: list):
 
 
 def compare_combi_with_previous(dataframe: pd.DataFrame, row_starting_position: int, winning_date: datetime.date,
-                                num_rows: int, winning_combinations:str) -> pd.DataFrame:
+                                num_rows: int, winning_combinations: str) -> pd.DataFrame:
     row_list = []
 
     # print(f'row_starting_position : {row_starting_position}')
@@ -143,7 +139,7 @@ def compare_combi_with_previous(dataframe: pd.DataFrame, row_starting_position: 
     winning_combinations_split = winning_combinations.split("-")
     print(f'Winning Combinations : {winning_combinations}')
 
-    for i in range(row_starting_position-1, max_length):
+    for i in range(row_starting_position - 1, max_length):
         df = dataframe.iloc[i]
         try:
             game = str(df["LOTTO GAME"])
@@ -151,7 +147,7 @@ def compare_combi_with_previous(dataframe: pd.DataFrame, row_starting_position: 
 
             date_draw_converted: datetime.date = convert_date_draw(str(date_draw))
 
-            if winning_date == date_draw_converted and game == "Lotto 6/42":
+            if winning_date == date_draw_converted and game == game_to_train:
                 continue
 
             combinations = str(df["COMBINATIONS"])
@@ -167,7 +163,7 @@ def compare_combi_with_previous(dataframe: pd.DataFrame, row_starting_position: 
                 for x in range(len(combinations_split)):
                     # print(f'combinations_split[x] : {combinations_split[x]}')
                     if winning_combinations_split[n] == combinations_split[x]:
-                        row_dictionary[str(x + 1)] = str(n+1)
+                        row_dictionary[str(x + 1)] = str(n + 1)
                         matched_count = matched_count + 1
 
             row_dictionary["Matched Count"] = matched_count
@@ -183,18 +179,17 @@ def compare_combi_with_previous(dataframe: pd.DataFrame, row_starting_position: 
     return data
 
 
-def get_saturdays(date_from: datetime.date, date_to: datetime.date) -> list:
+def get_days_to_train(date_from: datetime.date, date_to: datetime.date) -> list:
     print(f'date_to {date_to}')
     print(f'date_from {date_from}')
     difference = (date_to - date_from).days
     saturdays = [date_from + datetime.timedelta(days=x) for x in range(difference + 1) if
-                 (date_from + datetime.timedelta(days=x)).weekday() == 5]
+                 (date_from + datetime.timedelta(days=x)).weekday() == day_map[day_to_train]]
     return saturdays
 
 
 def run():
     global source_filename
-    print("cleaning results")
     destination_directory = ""
     source_directory = ""
 
@@ -218,13 +213,13 @@ def run():
     #     is_valid_source = True
     # destination_directory = "\\".join(source_filename.split("\\")[:-1])
 
-    success = start_training(filename="D:\\Github\\tools\\cleaned_results_10Nov_2024.xlsx",
+    success = start_training(filename="D:\\Github\\tools\\generated\\cleaned_results.xlsx",
                              destination=destination_directory)
 
     if success:
-        print("done Cleaning")
+        print("done Training")
     else:
-        print("cleaning failed.")
+        print("Training failed.")
 
 
 if __name__ == '__main__':

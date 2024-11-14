@@ -3,6 +3,8 @@ import pandas as pd
 import json
 import os
 
+today = datetime.today().strftime("%m%m-%d-%y%y")
+
 
 def start_cleaning(filename, destination):
     games = ("Lotto 6/42", "Megalotto 6/45", "Superlotto 6/49", "Grand Lotto 6/55", "Ultra Lotto 6/58")
@@ -36,7 +38,7 @@ def start_cleaning(filename, destination):
 
         print(len(data))
         df = pd.DataFrame(data)
-        df.to_excel("cleaned_results_10Nov_2024.xlsx")
+        df.to_excel("generated\\cleaned_results.xlsx")
         return True
 
     except Exception as e:
