@@ -25,10 +25,20 @@ def compare_list(l1: list, l2: list):
     # print("="*10)
     # print(l1)
     # print("="*10)
-    if l1 == l2[:6]:
-        return True
+    if len(l1) == len(l2):
+        if l1 == l2:
+            return True
     else:
-        return False
+        for i in range(len(l2) - 5):
+            part_of_list = l2[i: i + 6]
+            # print(len(part_of_list))
+            # print(l2)
+            # print(part_of_list)
+            # print("*"*20)
+            if l1 == part_of_list:
+                return True
+
+    return False
 
 
 def has_combination_matched(list_of_combinations: list, number_combination: list):
@@ -45,15 +55,21 @@ def has_combination_matched(list_of_combinations: list, number_combination: list
 
 def get_previous_results():
     filename = r"D:\Github\tools\642_results.xlsx"
-    df = pd.read_excel(filename, sheet_name="Sheet3")
     results = []
-    for v in df.values:
-        value = str(v[0]).split("-")
-        list_value = []
-        for i in value:
-            list_value.append(int(i))
-        results.append(list_value)
-    return results
+    try:
+        df = pd.read_excel(filename, sheet_name="Sheet3")
+
+        for v in df.values:
+            value = str(v[0]).split("-")
+            list_value = []
+            for i in value:
+                list_value.append(int(i))
+            results.append(list_value)
+        return results
+    except Exception as e:
+        print(e)
+    finally:
+        return results
 
 
 def generate_combinations(number_of_combinations: int, combination_length: int, start_range: int, end_range: int):
@@ -75,7 +91,25 @@ def generate_combinations(number_of_combinations: int, combination_length: int, 
     return list_of_combinations
 
 
-generated_combinations = generate_combinations(1, 12, 11, 41)
-for comb in generated_combinations: print(comb)
+def write_to_file(combinations: list):
+    try:
+        filename = r"D:\Github\tools\generated\combinations.xlsx"
+
+        df = pd.DataFrame(combinations)
+        df.to_excel(filename,index=False)
+        return True
+
+    except Exception as e:
+        print(e)
+        return False
+
+
+print("Generation of combinations started....")
+generated_combinations = generate_combinations(100, 6, 11, 41)
+print("writing to file")
+write_to_file(combinations=generated_combinations)
+# for comb in generated_combinations: print(comb)
+
+
 # get_previous_results()
 print("Done")
