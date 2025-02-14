@@ -65,10 +65,24 @@ def get_previous_results():
             for i in value:
                 list_value.append(int(i))
             results.append(list_value)
-        return results
+    except Exception as e:
+        print(e)
+
+    print(f"count : {len(results)}")
+
+    try:
+        df = pd.read_excel(filename, sheet_name="Sheet2")
+
+        for v in df.values:
+            value = str(v[0]).split("-")
+            list_value = []
+            for i in value:
+                list_value.append(int(i))
+            results.append(list_value)
     except Exception as e:
         print(e)
     finally:
+        print(f"count : {len(results)}")
         return results
 
 
@@ -96,7 +110,7 @@ def write_to_file(combinations: list):
         filename = r"D:\Github\tools\generated\combinations.xlsx"
 
         df = pd.DataFrame(combinations)
-        df.to_excel(filename,index=False)
+        df.to_excel(filename, index=False)
         return True
 
     except Exception as e:
@@ -105,7 +119,7 @@ def write_to_file(combinations: list):
 
 
 print("Generation of combinations started....")
-generated_combinations = generate_combinations(100, 6, 11, 41)
+generated_combinations = generate_combinations(1000, 6, 11, 41)
 print("writing to file")
 write_to_file(combinations=generated_combinations)
 # for comb in generated_combinations: print(comb)
