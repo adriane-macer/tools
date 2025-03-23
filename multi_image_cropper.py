@@ -28,13 +28,13 @@ map_prefixes = {"Character-In Car_": {
     "bottom": 481
 }, "Character-Parachute_": {
     "left": 164,
-    "top": 61,
-    "right": 408,
+    "top": 50,
+    "right": 447,
     "bottom": 467
 }, "Character-Flying_": {
     "left": 171,
     "top": 26,
-    "right": 436,
+    "right": 450,
     "bottom": 433
 }, "Droid-Fly_": {
     "left": 195,
@@ -81,6 +81,14 @@ for folder in folders:
             # print(f'=>>>{folder_target}/{png_file}')
             # Opens a image in RGB mode
             im = Image.open(f'{folder_target}\\{png_file}')
+
+            if found_prefix.__contains__("Parachute"):
+                image_width, image_height = im.size
+                if image_width == 825:
+                    left = 212
+                    right = 680
+                    top = 72
+                    bottom = 768
 
             # Cropped image of above dimension
             # (It will not change original image)
