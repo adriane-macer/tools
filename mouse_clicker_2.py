@@ -8,6 +8,7 @@ import random
 
 def start_main():
     controller = mouse.Controller()
+    time.sleep(5)
     location = controller.position
     print(f"{location[0], location[1]}")
     x = 0

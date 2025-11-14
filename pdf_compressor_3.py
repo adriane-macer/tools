@@ -9,7 +9,7 @@ writer = PdfWriter(clone_from=target_file)
 
 for page in writer.pages:
     for img in page.images:
-        img.replace(img.image, quality=11)
+        img.replace(img.image, quality=10)
 
 with open(destination_file, "wb") as f:
     writer.write(f)

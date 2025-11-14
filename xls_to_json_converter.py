@@ -68,6 +68,7 @@ def run():
 
     if success:
         print("done conversion")
+        print(destination_directory)
     else:
         print("conversion failed.")
 
