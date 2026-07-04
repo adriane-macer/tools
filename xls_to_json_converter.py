@@ -10,7 +10,8 @@ def start_converting(filename, destination):
     # xls.sheet_names
 
     print(xls.sheet_names)
-    for sheet_name in xls.sheet_names:
+    print(filename)
+    for sheet_name in xls.sheet_names[-1:len(xls.sheet_names)]:
         excel_df = None
         try:
             excel_df = pd.read_excel(filename, skiprows=0, sheet_name=sheet_name)

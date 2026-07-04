@@ -7,7 +7,6 @@ from datetime import datetime
 
 def start_main_battle():
     controller = mouse.Controller()
-
     #  main battle
     while 1:
         time.sleep(2)

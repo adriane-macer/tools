@@ -1,0 +1,12 @@
+{
+  "mode": "click_here",
+  "start_delay_seconds": 5,
+  "run_duration_seconds": 0,
+  "click_type": "left",
+  "click_interval_seconds": 0.5,
+  "stop_on_any_key": true,
+  "targets": [
+    { "x": 205, "y": 552 },
+    { "x": 273, "y": 786 }
+  ]
+}
